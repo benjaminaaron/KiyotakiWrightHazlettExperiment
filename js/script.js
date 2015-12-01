@@ -136,36 +136,44 @@ PersonType3.prototype = {
     }
 };
 
+function noTrade(){
+    return '<font color="red"><b>no</b></font> trade: ';
+};
+
+function yesTrade(){
+    return '<font color="green"><b>yes</b></font>';
+};
 
 function encounter(p1, p2){
-    var log = 'encounter of ' + p1.getDetails() + ' and ' + p2.getDetails() + '&nbsp;&nbsp;&nbsp; >> &nbsp;&nbsp;';
+    var log = 'encounter of ' + p1.getDetails() + ' and ' + p2.getDetails() + '&nbsp;&nbsp;&nbsp;<font size="1" color="silver">>></font>&nbsp;&nbsp;';
     if(p1.good == p2.good)
-        log += "no trade: both have the same good to offer";
+        log += noTrade() + "both have the same good to offer";
     else {
         var p1wantsTrade = p1.wantTrade(p2.good);
         var p2wantsTrade = p2.wantTrade(p1.good);
         
         if(!p1wantsTrade && !p2wantsTrade)
-            log += "no trade: both don't want to";
+            log += noTrade() + "both don't want to";
         if(p1wantsTrade && !p2wantsTrade)
-            log += "no trade: " + p1 + " wants to, but " + p2 + " doesn't";
+            log += noTrade() + p1 + " wants to, but " + p2 + " doesn't";
         if(!p1wantsTrade && p2wantsTrade)
-        log += "no trade: " + p2 + " wants to, but " + p1 + " doesn't";
+            log += noTrade() + p2 + " wants to, but " + p1 + " doesn't";
         
         if(p1wantsTrade && p2wantsTrade){
             var p1_good = p1.good;
             p1.doTrade(p2.good);
             p2.doTrade(p1_good);    
-            log += "trade takes place";
+            log += yesTrade() + ", trade takes place";
         }
     }
     print(log);     
 };
 
 
-function showStatuses(){    
+function showStatuses(addLineNumbers){    
     for(var i in persons){
-        print(persons[i].getStatus());
+        var lineNumb = parseInt(i) < 9 ? '&nbsp;&nbsp;' + (parseInt(i) + 1) : '' + (parseInt(i) + 1);
+        print((addLineNumbers ? '<font size="2" color="gray">' + lineNumb + ':</font>&nbsp;&nbsp;' : '') + persons[i].getStatus());
         persons[i].resetPointsDelta();
     };
 };
@@ -208,7 +216,7 @@ function oneRound(roundNumb){
     for(var i in persons)
         persons[i].payStorage();
     print('<font color="gray">status at end of round ' + roundNumb + ':</font>');
-    showStatuses();
+    showStatuses(false);
 };
 
 function runRounds(rounds){
@@ -220,7 +228,7 @@ function runRounds(rounds){
 function runAnalysis(){
     print('<font color="gray">final status, <b>sorted</b>:</font>');
     persons.sort(function sortFunc(p1, p2){return p2.points - p1.points;});
-    showStatuses(); 
+    showStatuses(true); 
     
     for(var i in persons)
         goodsEndAmounts[persons[i].good] += 1;
