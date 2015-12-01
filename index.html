@@ -3,7 +3,8 @@
     <head>
         <title>Kiyotaki Wright Hazlett Experiment</title>
         <meta charset='UTF-8'>
-        <script src="script.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/script.js" type="text/javascript" charset="utf-8"></script>
         <style>
             html * {
                 font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -11,6 +12,9 @@
         </style>
     </head>
     <body>
+        <script src="js/vendors/notie.js" type="text/javascript" charset="utf-8"></script>
+
+        
         <script>
         
             storageCosts['A'] = 1;
@@ -31,11 +35,7 @@
             print();
             print('<b><font size="5" color="red">market analysis</font></b>');
             print();
-            runAnalysis();     
-
-            function print(str){
-                document.write('&nbsp;&nbsp;&nbsp;' + (str == undefined ? '' : str) + '<br>');
-            };
+            runAnalysis();
 
         </script>
     </body>

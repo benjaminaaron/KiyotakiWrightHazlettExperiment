@@ -222,7 +222,6 @@ function runRounds(rounds){
 };
 
 
-
 function runAnalysis(){
     print('<font color="gray">final status, <b>sorted</b>:</font>');
     persons.sort(function sortFunc(p1, p2){return p2.points - p1.points;});
@@ -247,13 +246,10 @@ function runAnalysis(){
     printGoodPerformance(goodsPercentages, 'C');
 };
 
+
 function printGoodPerformance(goodsPercentages, good){
     print();
     print('<font color="green">performance of <b>good ' + good + '</b> on the market:</font>');
     print('went from <b>' + goodsStartAmounts[good] + '</b> <small>(' + goodsPercentages[good + '_start'] + ' of all goods)</small> to <b>' + goodsEndAmounts[good] + '</b> <small>(' + goodsPercentages[good + '_end'] + " of all goods)</small>, that's <b>" + goodsPercentages[good + '_diff'] + '</b> of the initial ' + goodsStartAmounts['A']);
     
-};
-
-function roundDec(num){
-    return Math.round(num * 10) / 10;
 };
