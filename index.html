@@ -13,10 +13,38 @@
     </head>
     <body>
         <script src="js/vendors/notie.js" type="text/javascript" charset="utf-8"></script>
-
+        
+        
+        <input type="text" id="numbPeopleTxt" value="24" size="4"/>
+        <small>: number of people</small>
+        <br>
+        <input type="text" id="numbRoundsTxt" value="10" size="4"/>
+        <small>: number of rounds</small>
+        <!--<br>
+        <input type="text" id="storageAtxt" value="1" size="4"/>
+        <small>: storage costs for good A</small>
+        <br>
+        <input type="text" id="storageBtxt" value="4" size="4"/>
+        <small>: storage costs for good B</small>
+        <br>
+        <input type="text" id="storageCtxt" value="9" size="4"/>
+        <small>: storage costs for good C</small>
+        <br>
+        <input type="text" id="startPointsTxt" value="40" size="4"/>
+        <small>: start points</small>
+        <br>
+        <input type="text" id="consumeBonusTxt" value="20" size="4"/>
+        <small>: consume bonus</small>
+        -->
+    
+        <br><br>
+        <input type="button" value="run simulation" id="runSimBtn"/>
+        <br><br>
+        
+        <!--<div id="logDiv"></div>--> <!-- TODO -->
         
         <script>
-        
+            
             storageCosts['A'] = 1;
             storageCosts['B'] = 4;
             storageCosts['C'] = 9;
@@ -25,17 +53,41 @@
             var consumeBonus = 20;
             var n = 24; //atm must be dividable by 2 and 3
             var rounds = 10;
+            
+            document.getElementById('runSimBtn').onclick = function(){
+                /*if(this.value == 'reset')
+                    location.reload();
+                else{
+                    this.value = 'reset';*/
+                    n = parseInt(document.getElementById('numbPeopleTxt').value);
+                    if(n % 2 != 0 || n % 3 != 0)
+                        notie.alert(3, 'the number of people must be divisible by <b>2</b> <i>and</i> <b>3</b> <small>(this might change at a later point)</small>', 5);
+                    else{
+                        rounds = parseInt(document.getElementById('numbRoundsTxt').value);
+                        /*
+                        storageCosts['A'] = parseInt(document.getElementById('storageAtxt').value);
+                        storageCosts['B'] = parseInt(document.getElementById('storageBtxt').value);
+                        storageCosts['C'] = parseInt(document.getElementById('storageCtxt').value);
+                        startPoints = parseInt(document.getElementById('startPointsTxt').value);
+                        consumeBonus = parseInt(document.getElementById('consumeBonusTxt').value);
+                        */
+                        runSim();
+                    }
+                //}
+            };
 
-            createPersons();
-            print();
-            print('<b><font size="5" color="blue">start simulation</font></b>');
-            runRounds(rounds);
-            print();
-            print('<b><font size="5" color="blue">end simulation</font></b>');
-            print();
-            print('<b><font size="5" color="red">market analysis</font></b>');
-            print();
-            runAnalysis();
+            function runSim(){            
+                createPersons();
+                print();
+                print('<b><font size="5" color="blue">start simulation</font></b>');
+                runRounds(rounds);
+                print();
+                print('<b><font size="5" color="blue">end simulation</font></b>');
+                print();
+                print('<b><font size="5" color="red">market analysis</font></b>');
+                print();
+                runAnalysis();
+            };
 
         </script>
     </body>

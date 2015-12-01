@@ -4,5 +4,7 @@ function roundDec(num){
 };
 
 function print(str){
-    document.write('&nbsp;&nbsp;&nbsp;' + (str == undefined ? '' : str) + '<br>');
+    var write = '&nbsp;&nbsp;&nbsp;' + (str == undefined ? '' : str) + '<br>';
+    //document.getElementById('logDiv').innerHTML += write; //TODO
+    document.write(write); 
 };
