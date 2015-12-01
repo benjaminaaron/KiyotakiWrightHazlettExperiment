@@ -3,159 +3,40 @@
     <head>
         <title>Kiyotaki Wright Hazlett Experiment</title>
         <meta charset='UTF-8'>
+        <script src="script.js" type="text/javascript" charset="utf-8"></script>
         <style>
+            html * {
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
+            }
         </style>
     </head>
     <body>
         <script>
         
-            var storageCosts = [];
             storageCosts['A'] = 1;
             storageCosts['B'] = 4;
             storageCosts['C'] = 9;
             
             var startPoints = 40;
             var consumeBonus = 20;
-            
-            var PersonType = function(id, type, consume, produce){
-                this.id = id;
-                this.type = type;
-                this.consume = consume;
-                this.produce = produce;
-                this.good = produce;
-                this.points = startPoints;
-            };
-            
-            PersonType.prototype = {
-                wantTrade: function(offeredGood){
-                    //do override
-                },
-                doTrade: function(incomingGood){
-                    if(incomingGood == this.consumes){
-                        this.good = this.produces;
-                        this.points += 20 - storageCosts[this.produces];
-                    }
-                    else {
-                        this.good = incomingGood;
-                        this.points -= storageCosts[incomingGood];
-                    }
-                },
-                toString: function(){
-                    return 'P' + this.type + '_' + this.id + '[' + this.good + '](' + this.points + ')';
-                }
-            };
-            
-            var PersonType1 = function(id){
-                PersonType.call(this, id, 1, 'A', 'B');
-            };
-            PersonType1.prototype = {
-                __proto__: PersonType.prototype,
-                wantTrade : function(offeredGood){
-                    switch(offeredGood){
-                        case 'A':
-                            return true;
-                        case 'B':
-                            if(this.good == 'A') // costs more to store
-                                return false;
-                            return true;
-                        case 'C':
-                            return true;
-                    };
-                }
-            };
-            
-            var PersonType2 = function(id){
-                PersonType.call(this, id, 2, 'B', 'C');
-            };
-            PersonType2.prototype = {
-                __proto__: PersonType.prototype,
-                wantTrade : function(offeredGood){
-                    switch(offeredGood){
-                        case 'A':
-                            return true;
-                        case 'B':
-                            return true;
-                        case 'C':
-                            return false;
-                    };
-                }
-            };
-            
-            var PersonType3 = function(id){
-                PersonType.call(this, id, 3, 'C', 'A');
-            };
-            PersonType3.prototype = {
-                __proto__: PersonType.prototype,
-                wantTrade : function(offeredGood){
-                    switch(offeredGood){
-                        case 'A':
-                            return true;
-                        case 'B':
-                            if(this.good == 'A') // costs more to store
-                                return false;
-                            return true;
-                        case 'C':
-                            return true;
-                    };
-                }
+            var n = 24; //atm must be dividable by 2 and 3
+            var rounds = 10;
+
+            createPersons();
+            print();
+            print('<b><font size="5" color="blue">start simulation</font></b>');
+            runRounds(rounds);
+            print();
+            print('<b><font size="5" color="blue">end simulation</font></b>');
+            print();
+            print('<b><font size="5" color="red">market analysis</font></b>');
+            print();
+            runAnalysis();     
+
+            function print(str){
+                document.write('&nbsp;&nbsp;&nbsp;' + (str == undefined ? '' : str) + '<br>');
             };
 
-            function encounter(p1, p2){
-                var log = 'encounter of ' + p1 + ' and ' + p2 + ' >> ';
-                var p1wantsTrade = p1.wantTrade(p2.good);
-                var p2wantsTrade = p2.wantTrade(p1.good);
-                console.log(p1wantsTrade, p2wantsTrade);
-                
-                if(!p1wantsTrade && !p2wantsTrade)
-                    log += "both don't want to trade";
-                if(p1wantsTrade && !p2wantsTrade)
-                    log += p1 + " wants to trade, but " + p2 + " doesn't";
-                if(!p1wantsTrade && p2wantsTrade)
-                    log += p2 + " wants to trade, but " + p1 + " doesn't";
-                
-                if(p1wantsTrade && p2wantsTrade){
-                    var p1_good = p1.good;
-                    p1.doTrade(p2.good);
-                    p2.doTrade(p1_good);    
-                    console.log(p1, p2);
-                    log += "trade takes place ";
-                }
-                
-                console.log(log);     
-            };
-            
-            var persons = [];
-            var n = 6;
-            
-            function createPersons(){
-                for(var i = 0; i < n / 3; i ++){
-                    persons.push(new PersonType1(persons.length));
-                    persons.push(new PersonType2(persons.length));
-                    persons.push(new PersonType3(persons.length));
-                };
-            };
-            
-            createPersons();
-            console.log(persons);
-            
-            
-            function oneRound(){    
-                var indize = [];
-                for(var i = 0; i < n; i ++)
-                    indize.push(i);
-                        
-                for(var i = 0; i < n / 2; i ++){
-                    var randIndex = Math.abs(Math.round(Math.random() * indize.length - 0.5));    
-                    var p1 = persons[indize.splice(randIndex, 1)];
-                    randIndex = Math.abs(Math.round(Math.random() * indize.length - 0.5));    
-                    var p2 = persons[indize.splice(randIndex, 1)];
-                    console.log(p1, p2);
-                    encounter(p1, p2);
-                };
-            };
-            
-            oneRound();
-        
         </script>
     </body>
 </html>
