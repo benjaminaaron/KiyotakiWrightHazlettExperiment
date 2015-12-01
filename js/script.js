@@ -85,15 +85,13 @@ PersonType1.prototype = {
     __proto__: PersonType.prototype,
     
     wantTrade : function(offeredGood){
-        switch(offeredGood){
-            case 'A':
+        switch(offeredGood){ // can currently have: B or C
+            case 'A': // YES, consume good!
                 return true;
             case 'B':
-                if(this.good == 'A') // costs more to store
-                    return false;
                 return true;
             case 'C':
-                return true;
+                return false;
         };
     }
 };
@@ -107,10 +105,10 @@ PersonType2.prototype = {
     __proto__: PersonType.prototype,
     
     wantTrade : function(offeredGood){
-        switch(offeredGood){
+        switch(offeredGood){ // can currently have: A or C
             case 'A':
                 return true;
-            case 'B':
+            case 'B': // YES, consume good!
                 return true;
             case 'C':
                 return false;
@@ -127,14 +125,12 @@ PersonType3.prototype = {
     __proto__: PersonType.prototype,
     
     wantTrade : function(offeredGood){
-        switch(offeredGood){
+        switch(offeredGood){ // can currently have: A or B
             case 'A':
                 return true;
             case 'B':
-                if(this.good == 'A') // costs more to store
-                    return false;
-                return true;
-            case 'C':
+                return false;
+            case 'C': // YES, consume good!
                 return true;
         };
     }
@@ -143,21 +139,20 @@ PersonType3.prototype = {
 
 function encounter(p1, p2){
     var log = 'encounter of ' + p1.getDetails() + ' and ' + p2.getDetails() + '&nbsp;&nbsp;&nbsp; >> &nbsp;&nbsp;';
-    var p1wantsTrade = p1.wantTrade(p2.good);
-    var p2wantsTrade = p2.wantTrade(p1.good);
-    
-    if(!p1wantsTrade && !p2wantsTrade)
-        log += "no trade: both don't want to";
-    if(p1wantsTrade && !p2wantsTrade)
-        log += "no trade: " + p1 + " wants to, but " + p2 + " doesn't";
-    if(!p1wantsTrade && p2wantsTrade)
-    log += "no trade: " + p2 + " wants to, but " + p1 + " doesn't";
-    
-    if(p1wantsTrade && p2wantsTrade){
-        if(p1.good == p2.good){
-            log += "no trade: both have the same good to offer";
-        }
-        else {
+    if(p1.good == p2.good)
+        log += "no trade: both have the same good to offer";
+    else {
+        var p1wantsTrade = p1.wantTrade(p2.good);
+        var p2wantsTrade = p2.wantTrade(p1.good);
+        
+        if(!p1wantsTrade && !p2wantsTrade)
+            log += "no trade: both don't want to";
+        if(p1wantsTrade && !p2wantsTrade)
+            log += "no trade: " + p1 + " wants to, but " + p2 + " doesn't";
+        if(!p1wantsTrade && p2wantsTrade)
+        log += "no trade: " + p2 + " wants to, but " + p1 + " doesn't";
+        
+        if(p1wantsTrade && p2wantsTrade){
             var p1_good = p1.good;
             p1.doTrade(p2.good);
             p2.doTrade(p1_good);    
@@ -250,6 +245,8 @@ function runAnalysis(){
 function printGoodPerformance(goodsPercentages, good){
     print();
     print('<font color="green">performance of <b>good ' + good + '</b> on the market:</font>');
-    print('went from <b>' + goodsStartAmounts[good] + '</b> <small>(' + goodsPercentages[good + '_start'] + ' of all goods)</small> to <b>' + goodsEndAmounts[good] + '</b> <small>(' + goodsPercentages[good + '_end'] + " of all goods)</small>, that's <b>" + goodsPercentages[good + '_diff'] + '</b> of the initial ' + goodsStartAmounts['A']);
-    
+    if(goodsStartAmounts[good] == goodsEndAmounts[good])
+        print('stayed at <b>' + goodsStartAmounts[good] + '</b> <small>(' + goodsPercentages[good + '_start'] + ' of all goods)</small>');
+    else
+        print('went from <b>' + goodsStartAmounts[good] + '</b> <small>(' + goodsPercentages[good + '_start'] + ' of all goods)</small> to <b>' + goodsEndAmounts[good] + '</b> <small>(' + goodsPercentages[good + '_end'] + " of all goods)</small>, that's <b>" + goodsPercentages[good + '_diff'] + '</b> of the initial ' + goodsStartAmounts['A']);
 };
