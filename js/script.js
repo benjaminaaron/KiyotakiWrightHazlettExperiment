@@ -1,6 +1,8 @@
 
 var storageCosts = {};
 var persons = [];
+var propTypeAccepts = {};
+var propTypeNice = {};
 
 var personTypeAmounts = {};
 personTypeAmounts[1] = 0;
@@ -18,19 +20,23 @@ goodsEndAmounts['B'] = 0;
 goodsEndAmounts['C'] = 0;
 
 
-var PersonType = function(id, type, consume, produce){
+function getDecision(yesThreshold){
+    return Math.random() <= yesThreshold;
+};
+
+var Person = function(id, type, consume, produce){
     this.id = id;
     this.type = type;
     this.consume = consume;
     this.produce = produce;
     this.good = produce;
-    goodsStartAmounts[produce] += 1;
+    goodsStartAmounts[this.good] += 1;
     this.points = startPoints;
     this.pointsBeforeRound;
     this.pointsDelta = 0;
 };
 
-PersonType.prototype = {
+Person.prototype = {
     
     roundStart: function(){
         this.pointsBeforeRound = this.points;    
@@ -41,7 +47,11 @@ PersonType.prototype = {
     },
     
     wantTrade: function(offeredGood){
-        //do override
+        return getDecision(propTypeAccepts[this.type + offeredGood]);
+    },
+    
+    makeConcession: function(){
+        return getDecision(propTypeNice[this.type]);
     },
     
     doTrade: function(incomingGood){
@@ -82,72 +92,31 @@ PersonType.prototype = {
 };
 
 
-var PersonType1 = function(id){
-    PersonType.call(this, id, 1, 'A', 'B');
+function createPersonTypeGroup(numb, personType, consumeGood, produceGood){
+    for(var i = 0; i < numb; i ++){
+        var p = new Person(persons.length + 1, personType, consumeGood, produceGood);
+        persons.push(p);
+        personTypeAmounts[personType] += 1;
+        print('created ' + p.getDetails());
+    };
 };
 
-PersonType1.prototype = {
-    __proto__: PersonType.prototype,
-    
-    wantTrade : function(offeredGood){
-        switch(offeredGood){ // can currently have: B or C
-            case 'A': // YES, consume good!
-                return true;
-            case 'B':
-                return true;
-            case 'C':
-                return false;
-        };
-    }
+function createPersons(){
+    var amountOfEachType = n / 3;
+    createPersonTypeGroup(amountOfEachType, 1, 'A', 'B');
+    createPersonTypeGroup(amountOfEachType, 2, 'B', 'C');
+    createPersonTypeGroup(amountOfEachType, 3, 'C', 'A');
 };
 
-
-var PersonType2 = function(id){
-    PersonType.call(this, id, 2, 'B', 'C');
-};
-
-PersonType2.prototype = {
-    __proto__: PersonType.prototype,
-    
-    wantTrade : function(offeredGood){
-        switch(offeredGood){ // can currently have: A or C
-            case 'A':
-                return true;
-            case 'B': // YES, consume good!
-                return true;
-            case 'C':
-                return false;
-        };
-    }
-};
-
-
-var PersonType3 = function(id){
-    PersonType.call(this, id, 3, 'C', 'A');
-};
-
-PersonType3.prototype = {
-    __proto__: PersonType.prototype,
-    
-    wantTrade : function(offeredGood){
-        switch(offeredGood){ // can currently have: A or B
-            case 'A':
-                return true;
-            case 'B':
-                return false;
-            case 'C': // YES, consume good!
-                return true;
-        };
-    }
-};
 
 function noTrade(){
-    return '<font color="red"><b>no</b></font> trade: ';
+    return '<font color="red"><b>no</b></font>, ';
 };
 
 function yesTrade(){
-    return '<font color="green"><b>yes</b></font>';
+    return '<font color="green"><b>yes</b></font>, ';
 };
+
 
 function encounter(p1, p2){
     var log = 'encounter of ' + p1.getDetails() + ' and ' + p2.getDetails() + '&nbsp;&nbsp;&nbsp;<font size="2" color="gray">>></font>&nbsp;&nbsp;';
@@ -157,18 +126,35 @@ function encounter(p1, p2){
         var p1wantsTrade = p1.wantTrade(p2.good);
         var p2wantsTrade = p2.wantTrade(p1.good);
         
+        var doTrade = p1wantsTrade && p2wantsTrade;
+        if(doTrade)
+            log += yesTrade() + "trade takes place because both want to";
+        
         if(!p1wantsTrade && !p2wantsTrade)
             log += noTrade() + "both don't want to";
-        if(p1wantsTrade && !p2wantsTrade)
-            log += noTrade() + p1 + " wants to, but " + p2 + " doesn't";
-        if(!p1wantsTrade && p2wantsTrade)
-            log += noTrade() + p2 + " wants to, but " + p1 + " doesn't";
+            
+        if(p1wantsTrade && !p2wantsTrade){
+            if(p2.makeConcession()){
+                log += yesTrade() + p1 + " wants to and " + p2 + " didn't want originally but is willing to make the trade anyway";
+                doTrade = true;
+            }
+            else
+                log += noTrade() + p1 + " wants to but " + p2 + " doesn't";
+        }
         
-        if(p1wantsTrade && p2wantsTrade){
+        if(!p1wantsTrade && p2wantsTrade){
+            if(p1.makeConcession()){
+                log += yesTrade() + p2 + " wants to and " + p1 + " didn't want originally but is willing to make the trade anyway";
+                doTrade = true;
+            }
+            else
+                log += noTrade() + p2 + " wants to but " + p1 + " doesn't";
+        }
+        
+        if(doTrade){
             var p1_good = p1.good;
             p1.doTrade(p2.good);
             p2.doTrade(p1_good);    
-            log += yesTrade() + ", trade takes place";
         }
     }
     print(log);     
@@ -183,28 +169,6 @@ function showStatuses(addLineNumbers){
     };
 };
 
-
-function createPersons(){
-    for(var i = 0; i < n / 3; i ++){
-        var p = new PersonType1(persons.length + 1);
-        persons.push(p);
-        personTypeAmounts[1] += 1;
-        print('created ' + p.getDetails());
-    };
-    for(var i = 0; i < n / 3; i ++){
-        var p = new PersonType2(persons.length + 1);
-        persons.push(p);
-        personTypeAmounts[2] += 1;
-        print('created ' + p.getDetails());
-    };
-    for(var i = 0; i < n / 3; i ++){
-        var p = new PersonType3(persons.length + 1);
-        persons.push(p);
-        personTypeAmounts[3] += 1;
-        print('created ' + p.getDetails());
-    };
-};
-        
 
 function oneRound(roundNumb){
     for(var i in persons)
