@@ -2,6 +2,11 @@
 var storageCosts = {};
 var persons = [];
 
+var personTypeAmounts = {};
+personTypeAmounts[1] = 0;
+personTypeAmounts[2] = 0;
+personTypeAmounts[3] = 0;
+
 var goodsStartAmounts = {};
 goodsStartAmounts['A'] = 0;
 goodsStartAmounts['B'] = 0;
@@ -145,7 +150,7 @@ function yesTrade(){
 };
 
 function encounter(p1, p2){
-    var log = 'encounter of ' + p1.getDetails() + ' and ' + p2.getDetails() + '&nbsp;&nbsp;&nbsp;<font size="1" color="silver">>></font>&nbsp;&nbsp;';
+    var log = 'encounter of ' + p1.getDetails() + ' and ' + p2.getDetails() + '&nbsp;&nbsp;&nbsp;<font size="2" color="gray">>></font>&nbsp;&nbsp;';
     if(p1.good == p2.good)
         log += noTrade() + "both have the same good to offer";
     else {
@@ -183,16 +188,19 @@ function createPersons(){
     for(var i = 0; i < n / 3; i ++){
         var p = new PersonType1(persons.length + 1);
         persons.push(p);
+        personTypeAmounts[1] += 1;
         print('<small>created ' + p.getDetails() + '</small>');
     };
     for(var i = 0; i < n / 3; i ++){
         var p = new PersonType2(persons.length + 1);
         persons.push(p);
+        personTypeAmounts[2] += 1;
         print('<small>created ' + p.getDetails() + '</small>');
     };
     for(var i = 0; i < n / 3; i ++){
         var p = new PersonType3(persons.length + 1);
         persons.push(p);
+        personTypeAmounts[3] += 1;
         print('<small>created ' + p.getDetails() + '</small>');
     };
 };

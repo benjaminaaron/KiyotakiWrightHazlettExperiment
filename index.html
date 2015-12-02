@@ -18,8 +18,8 @@
         
         <font size="5">Kiyotaki Wright Hazlett Experiment</font>
         <br><br>            
-        <input type="text" id="numbPeopleTxt" value="24" size="4"/>
-        <small>: number of people</small>
+        <input type="text" id="numbPersonsTxt" value="24" size="4"/>
+        <small>: number of persons</small>
         <br>
         <input type="text" id="numbRoundsTxt" value="10" size="4"/>
         <small>: number of rounds</small>
@@ -60,9 +60,9 @@
                     location.reload();
                 else{
                     this.value = 'reset';*/
-                    n = parseInt(document.getElementById('numbPeopleTxt').value);
+                    n = parseInt(document.getElementById('numbPersonsTxt').value);
                     if(n % 2 != 0 || n % 3 != 0)
-                        notie.alert(3, 'the number of people must be divisible by <b>2</b> <i>and</i> <b>3</b> <small>(this might change at a later point)</small>', 5);
+                        notie.alert(3, 'the number of persons must be divisible by <b>2</b> <i>and</i> <b>3</b> <small>(this might change at a later point)</small>', 5);
                     else{
                         rounds = parseInt(document.getElementById('numbRoundsTxt').value);
                         /*
@@ -77,9 +77,21 @@
                 //}
             };
 
-            function runSim(){            
+            function runSim(){
+                print('<b><font size="5" color="green">initializing</font></b>');
+                print();
+                print('<font color="gray">total number of persons = ' + n);
+                print('rounds = ' + rounds);
+                print('storage costs = A: ' + storageCosts['A'] + ', B: ' + storageCosts['B'] + ', C: ' + storageCosts['C']);
+                print('start points = ' + startPoints)
+                print('consume bonus = ' + consumeBonus + '</font>');  
+                print('<font color="gray">total number of goods = ' + n);  
+                print();
                 createPersons();
                 print();
+                print('<font color="gray">number of persons = 1: ' + personTypeAmounts[1] + ', 2: ' + personTypeAmounts[2] + ', 3: ' + personTypeAmounts[3]);
+                print('<font color="gray">number of goods = A: ' + goodsStartAmounts['A'] + ', B: ' + goodsStartAmounts['B'] + ', C: ' + goodsStartAmounts['C'] );
+                print();                
                 print('<b><font size="5" color="blue">start simulation</font></b>');
                 runRounds(rounds);
                 print();
