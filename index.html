@@ -27,11 +27,12 @@
         number of rounds
         <br><br>
         
-        predefined settings:
+        <i>predefined settings</i>:
         <select id="presetsSelector" onchange="presetsSelectorChanged()">
-            <option value="default">default: strict trading</option>
+            <option value="strict">default: strict benefit-orientated trading</option>
+            <option value="stubborn">stubborn: only trade if you get your consumption good</option>
             <option value="strategic">strategic: accept goods that are consumed by the Type that produces your consumption good</option>
-            <option value="social">social: strict trading but a 25% chance to make concessions</option>
+            <option value="social">social: strict benefit-orientated trading but a 25% chance to make concessions</option>
             <option value="equilibrium">equilibrium: equal storage costs, accept all trades</option>
         </select> 
         
@@ -173,7 +174,15 @@
                 resetInputFields();
                 var e;
                 switch(document.getElementById('presetsSelector').value){
-                    case 'default':
+                    case 'strict':
+                        break;
+                    case 'stubborn':
+                        e = document.getElementById('probType1acceptsB');
+                        e.value = 0;
+                        e = document.getElementById('probType2acceptsA');
+                        e.value = 0;
+                        e = document.getElementById('probType3acceptsA');
+                        e.value = 0;                    
                         break;
                     case 'strategic':
                         e = document.getElementById('probType1acceptsC');
