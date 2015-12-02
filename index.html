@@ -17,43 +17,87 @@
         <script src="js/vendors/notie.js" type="text/javascript" charset="utf-8"></script>
         
         <font size="5">Kiyotaki Wright Hazlett Experiment</font>
-        <br><br>            
+        <br><br>
+        
+        <small>        
         <input type="text" id="numbPersonsTxt" value="24" size="4"/>
-        <small>: number of persons</small>
+        number of persons
         <br>
         <input type="text" id="numbRoundsTxt" value="10" size="4"/>
-        <small>: number of rounds</small>
-        <!--<br>
+        number of rounds
+        <br>
+        <br>
         <input type="text" id="storageAtxt" value="1" size="4"/>
-        <small>: storage costs for good A</small>
+        storage costs for good A
         <br>
         <input type="text" id="storageBtxt" value="4" size="4"/>
-        <small>: storage costs for good B</small>
+        storage costs for good B
         <br>
         <input type="text" id="storageCtxt" value="9" size="4"/>
-        <small>: storage costs for good C</small>
+        storage costs for good C
         <br>
         <input type="text" id="startPointsTxt" value="40" size="4"/>
-        <small>: start points</small>
+        start points
         <br>
         <input type="text" id="consumeBonusTxt" value="20" size="4"/>
-        <small>: consume bonus</small>
-        -->
+        consume bonus
+        </small>
+        
         <br><br>
+        probabilities for accepting a trade <small>from <i>0=no</i> to <i>1=yes</i>, decimals between are valid</small>
+        <br><br>
+        
+        <small>
+        person Type1 accepts good A
+        <input type="text" id="probType1acceptsA" value="1" size="2"/>
+        good B
+        <input type="text" id="probType1acceptsB" value="1" size="2"/>
+        good C
+        <input type="text" id="probType1acceptsC" value="0" size="2"/>
+        <br>
+        person Type2 accepts good A
+        <input type="text" id="probType2acceptsA" value="1" size="2"/>
+        good B
+        <input type="text" id="probType2acceptsB" value="1" size="2"/>
+        good C
+        <input type="text" id="probType2acceptsC" value="0" size="2"/>
+        <br>
+        person Type3 accepts good A
+        <input type="text" id="probType3acceptsA" value="1" size="2"/>
+        good B
+        <input type="text" id="probType3acceptsB" value="0" size="2"/>
+        good C
+        <input type="text" id="probType3acceptsC" value="1" size="2"/>
+        </small>
+        
+        <br><br><br>
         <input type="button" value="run simulation" id="runSimBtn"/>
-        <br><br>
+        
         <!--<div id="logDiv"></div>--> <!-- TODO -->
         
         <script>
+
+            var startPoints = 40;
+            var consumeBonus = 20;
+            var n = 24; //atm must be dividable by 2 and 3
+            var rounds = 10;
             
             storageCosts['A'] = 1;
             storageCosts['B'] = 4;
             storageCosts['C'] = 9;
             
-            var startPoints = 40;
-            var consumeBonus = 20;
-            var n = 24; //atm must be dividable by 2 and 3
-            var rounds = 10;
+            var probType1acceptsA = 1.0;
+            var probType1acceptsB = 1.0;
+            var probType1acceptsC = 0.0;
+            
+            var probType2acceptsA = 1.0;
+            var probType2acceptsB = 1.0;
+            var probType2acceptsC = 0.0;
+            
+            var probType3acceptsA = 1.0;
+            var probType3acceptsB = 0.0;
+            var probType3acceptsC = 1.0;
+            
             
             document.getElementById('runSimBtn').onclick = function(){
                 /*if(this.value == 'reset')
@@ -65,13 +109,26 @@
                         notie.alert(3, 'the number of persons must be divisible by <b>2</b> <i>and</i> <b>3</b> <small>(this might change at a later point)</small>', 5);
                     else{
                         rounds = parseInt(document.getElementById('numbRoundsTxt').value);
-                        /*
                         storageCosts['A'] = parseInt(document.getElementById('storageAtxt').value);
                         storageCosts['B'] = parseInt(document.getElementById('storageBtxt').value);
                         storageCosts['C'] = parseInt(document.getElementById('storageCtxt').value);
                         startPoints = parseInt(document.getElementById('startPointsTxt').value);
                         consumeBonus = parseInt(document.getElementById('consumeBonusTxt').value);
-                        */
+                        
+                        storageCosts['A'] = parseInt(document.getElementById('storageAtxt').value);
+                        
+                        probType1acceptsA = parseFloat(document.getElementById('probType1acceptsA').value);
+                        probType1acceptsB = parseFloat(document.getElementById('probType1acceptsB').value);
+                        probType1acceptsC = parseFloat(document.getElementById('probType1acceptsC').value);
+                        
+                        probType2acceptsA = parseFloat(document.getElementById('probType2acceptsA').value);
+                        probType2acceptsB = parseFloat(document.getElementById('probType2acceptsB').value);
+                        probType2acceptsC = parseFloat(document.getElementById('probType2acceptsC').value);
+                        
+                        probType3acceptsA = parseFloat(document.getElementById('probType3acceptsA').value);
+                        probType3acceptsB = parseFloat(document.getElementById('probType3acceptsB').value);
+                        probType3acceptsC = parseFloat(document.getElementById('probType3acceptsC').value);
+                        
                         runSim();
                     }
                 //}
