@@ -27,6 +27,15 @@
         number of rounds
         <br><br>
         
+        predefined settings:
+        <select id="presetsSelector" onchange="presetsSelectorChanged()">
+            <option value="default">default: strict trading</option>
+            <option value="strategic">strategic: accept goods that are consumed by the Type that produces your consumption good</option>
+            <option value="social">social: strict trading but a 25% chance to make concessions</option>
+            <option value="equilibrium">equilibrium: equal storage costs, accept all trades</option>
+        </select> 
+        
+        <br><br>
         <input type="text" id="storageAtxt" value="1" size="4"/>
         storage costs for good A
         <br>
@@ -46,34 +55,33 @@
         <br><br>
         probabilities for accepting a trade
         <br><br>
-        
         <small>
         person <b>Type1</b> <font color="gray">consumes A and produces B with it --> can possibly offer B or C in a trade</font>
         <br>
         accepts good A
-        <input type="text" id="probType1acceptsA" value="1" size="2"/>
+        <input type="text" id="probType1acceptsA" value="1" size="4"/>
         good B
-        <input type="text" id="probType1acceptsB" value="1" size="2"/>
+        <input type="text" id="probType1acceptsB" value="1" size="4"/>
         good C
-        <input type="text" id="probType1acceptsC" value="0" size="2"/>
+        <input type="text" id="probType1acceptsC" value="0" size="4"/>
         <br><br>
         person <b>Type2</b> <font color="gray">consumes B and produces C with it --> can possibly offer A or C in a trade</font>
         <br>
         accepts good A
-        <input type="text" id="probType2acceptsA" value="1" size="2"/>
+        <input type="text" id="probType2acceptsA" value="1" size="4"/>
         good B
-        <input type="text" id="probType2acceptsB" value="1" size="2"/>
+        <input type="text" id="probType2acceptsB" value="1" size="4"/>
         good C
-        <input type="text" id="probType2acceptsC" value="0" size="2"/>
+        <input type="text" id="probType2acceptsC" value="0" size="4"/>
         <br><br>
         person <b>Type3</b> <font color="gray">consumes C and produces A with it --> can possibly offer A or B in a trade</font>
         <br>
         accepts good A
-        <input type="text" id="probType3acceptsA" value="1" size="2"/>
+        <input type="text" id="probType3acceptsA" value="1" size="4"/>
         good B
-        <input type="text" id="probType3acceptsB" value="0" size="2"/>
+        <input type="text" id="probType3acceptsB" value="0" size="4"/>
         good C
-        <input type="text" id="probType3acceptsC" value="1" size="2"/>
+        <input type="text" id="probType3acceptsC" value="1" size="4"/>
         </small>
         
         <br><br><br>
@@ -81,20 +89,18 @@
         <br><br>
         <small>
         person <b>Type1</b>
-        <input type="text" id="propTyp1nice" value="0" size="2"/>
+        <input type="text" id="propTyp1nice" value="0" size="4"/>
         <br>
         person <b>Type2</b>
-        <input type="text" id="propTyp2nice" value="0" size="2"/>  
+        <input type="text" id="propTyp2nice" value="0" size="4"/>  
         <br>      
         person <b>Type3</b>
-        <input type="text" id="propTyp3nice" value="0" size="2"/>
+        <input type="text" id="propTyp3nice" value="0" size="4"/>
         </small>
             
         <br><br><br>
         <input type="button" value="run simulation" id="runSimBtn"/>
-        
-        <!--<div id="logDiv"></div>--> <!-- TODO -->
-        
+
         <script>
 
             var startPoints = 40;
@@ -122,11 +128,88 @@
             propTypeNice[2] = 0.0;
             propTypeNice[3] = 0.0;        
             
+            function resetInputFields(){
+                var e;
+                
+                e = document.getElementById('storageAtxt');
+                e.value = 1;
+                e = document.getElementById('storageBtxt');
+                e.value = 4;
+                e = document.getElementById('storageCtxt');
+                e.value = 9;
+                e = document.getElementById('startPointsTxt');
+                e.value = 40;
+                e = document.getElementById('consumeBonusTxt');
+                
+                e.value = 20;
+                e = document.getElementById('probType1acceptsA');
+                e.value = 1;
+                e = document.getElementById('probType1acceptsB');
+                e.value = 1;
+                e = document.getElementById('probType1acceptsC');
+                e.value = 0;
+                e = document.getElementById('probType2acceptsA');
+                e.value = 1;
+                e = document.getElementById('probType2acceptsB');
+                e.value = 1;
+                e = document.getElementById('probType2acceptsC');
+                e.value = 0;
+                e = document.getElementById('probType3acceptsA');
+                e.value = 1;
+                e = document.getElementById('probType3acceptsB');
+                e.value = 0;
+                e = document.getElementById('probType3acceptsC');
+                e.value = 1;
+                
+                e = document.getElementById('propTyp1nice');
+                e.value = 0;
+                e = document.getElementById('propTyp2nice');
+                e.value = 0;
+                e = document.getElementById('propTyp3nice');
+                e.value = 0;
+            };
+            
+            function presetsSelectorChanged(){
+                resetInputFields();
+                var e;
+                switch(document.getElementById('presetsSelector').value){
+                    case 'default':
+                        break;
+                    case 'strategic':
+                        e = document.getElementById('probType1acceptsC');
+                        e.value = 1;
+                        e = document.getElementById('probType3acceptsB');
+                        e.value = 1;
+                        break;
+                    case 'social':
+                        e = document.getElementById('propTyp1nice');
+                        e.value = 0.25;
+                        e = document.getElementById('propTyp2nice');
+                        e.value = 0.25;
+                        e = document.getElementById('propTyp3nice');
+                        e.value = 0.25;
+                        break;
+                    case 'equilibrium':
+                        e = document.getElementById('probType1acceptsC');
+                        e.value = 1;
+                        e = document.getElementById('probType2acceptsC');
+                        e.value = 1;
+                        e = document.getElementById('probType3acceptsB');
+                        e.value = 1;
+                        e = document.getElementById('storageAtxt');
+                        e.value = 5;
+                        e = document.getElementById('storageBtxt');
+                        e.value = 5;
+                        e = document.getElementById('storageCtxt');
+                        e.value = 5;
+                        break;
+                }                
+            };
             
             document.getElementById('runSimBtn').onclick = function(){
                 n = parseInt(document.getElementById('numbPersonsTxt').value);
                 if(n % 2 != 0 || n % 3 != 0)
-                    notie.alert(3, 'the number of persons must be divisible by <b>2</b> <i>and</i> <b>3</b> <small>(this might change at a later point)</small>', 5);
+                    notie.alert(3, 'sorry, the number of persons must be divisible by <b>2</b> <i>and</i> <b>3</b> <small>(this might change at a later point)</small>', 5);
                 else {
                     rounds = parseInt(document.getElementById('numbRoundsTxt').value);
                     storageCosts['A'] = parseInt(document.getElementById('storageAtxt').value);
@@ -166,6 +249,12 @@
                 print('start points = ' + startPoints)
                 print('consume bonus = ' + consumeBonus + '</font>');  
                 print('total number of goods = ' + n);  
+                print('probability of Type1 to accept goods = A: ' + propTypeAccepts['1A'] + ', B: ' + propTypeAccepts['1B'] + ', C: ' + propTypeAccepts['1C']);
+                print('probability of Type2 to accept goods = A: ' + propTypeAccepts['2A'] + ', B: ' + propTypeAccepts['2B'] + ', C: ' + propTypeAccepts['2C']);
+                print('probability of Type3 to accept goods = A: ' + propTypeAccepts['3A'] + ', B: ' + propTypeAccepts['3B'] + ', C: ' + propTypeAccepts['3C']);
+                print('concession probability of Type1: ' + propTypeNice[1]);
+                print('concession probability of Type2: ' + propTypeNice[2]);
+                print('concession probability of Type3: ' + propTypeNice[3]);
                 print('<small>');
                 createPersons();
                 print('</small>');
