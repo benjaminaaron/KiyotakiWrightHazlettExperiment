@@ -25,9 +25,8 @@
         <br>
         <input type="text" id="numbRoundsTxt" value="10" size="4"/>
         number of rounds
+        <br><br>
         
-        <br>
-        <br>
         <input type="text" id="storageAtxt" value="1" size="4"/>
         storage costs for good A
         <br>
@@ -43,34 +42,54 @@
         <input type="text" id="consumeBonusTxt" value="20" size="4"/>
         consume bonus
         </small>
-        
+         
         <br><br>
-        probabilities for accepting a trade <small>from <i>0=no</i> to <i>1=yes</i>, decimals between are valid</small>
+        probabilities for accepting a trade
         <br><br>
         
         <small>
-        person Type1 accepts good A
+        person <b>Type1</b> <font color="gray">consumes A and produces B with it --> can possibly offer B or C in a trade</font>
+        <br>
+        accepts good A
         <input type="text" id="probType1acceptsA" value="1" size="2"/>
         good B
         <input type="text" id="probType1acceptsB" value="1" size="2"/>
         good C
         <input type="text" id="probType1acceptsC" value="0" size="2"/>
+        <br><br>
+        person <b>Type2</b> <font color="gray">consumes B and produces C with it --> can possibly offer A or C in a trade</font>
         <br>
-        person Type2 accepts good A
+        accepts good A
         <input type="text" id="probType2acceptsA" value="1" size="2"/>
         good B
         <input type="text" id="probType2acceptsB" value="1" size="2"/>
         good C
         <input type="text" id="probType2acceptsC" value="0" size="2"/>
+        <br><br>
+        person <b>Type3</b> <font color="gray">consumes C and produces A with it --> can possibly offer A or B in a trade</font>
         <br>
-        person Type3 accepts good A
+        accepts good A
         <input type="text" id="probType3acceptsA" value="1" size="2"/>
         good B
         <input type="text" id="probType3acceptsB" value="0" size="2"/>
         good C
         <input type="text" id="probType3acceptsC" value="1" size="2"/>
         </small>
-
+        
+        <br><br><br>
+        probabilities for making concessions to someone<small>: "being nice", making a trade that only the counterpart wants</small>
+        <br><br>
+        <small>
+        person <b>Type1</b>
+        <input type="text" id="propTyp1nice" value="0" size="2"/>
+        <br>
+        person <b>Type2</b>
+        <input type="text" id="propTyp2nice" value="0" size="2"/>  
+        <br>      
+        person <b>Type3</b>
+        <input type="text" id="propTyp3nice" value="0" size="2"/>
+        </small>
+            
         <br><br><br>
         <input type="button" value="run simulation" id="runSimBtn"/>
         
@@ -98,7 +117,11 @@
             propTypeAccepts['3A'] = 1.0;
             propTypeAccepts['3B'] = 0.0;
             propTypeAccepts['3C'] = 1.0;
-                        
+            
+            propTypeNice[1] = 0.0;
+            propTypeNice[2] = 0.0;
+            propTypeNice[3] = 0.0;        
+            
             
             document.getElementById('runSimBtn').onclick = function(){
                 n = parseInt(document.getElementById('numbPersonsTxt').value);
@@ -126,6 +149,10 @@
                     propTypeAccepts['3B'] = parseFloat(document.getElementById('probType3acceptsB').value);
                     propTypeAccepts['3C'] = parseFloat(document.getElementById('probType3acceptsC').value);
                     
+                    propTypeNice[1] = parseFloat(document.getElementById('propTyp1nice').value);
+                    propTypeNice[2] = parseFloat(document.getElementById('propTyp2nice').value);
+                    propTypeNice[3] = parseFloat(document.getElementById('propTyp3nice').value);
+
                     runSim();
                 }
             };
