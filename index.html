@@ -25,7 +25,7 @@
         <br>
         <input type="text" id="numbRoundsTxt" value="10" size="4"/>
         number of rounds
-        <!--
+        
         <br>
         <br>
         <input type="text" id="storageAtxt" value="1" size="4"/>
@@ -70,7 +70,7 @@
         good C
         <input type="text" id="probType3acceptsC" value="1" size="2"/>
         </small>
-    -->
+
         <br><br><br>
         <input type="button" value="run simulation" id="runSimBtn"/>
         
@@ -112,7 +112,7 @@
                     notie.alert(3, 'the number of persons must be divisible by <b>2</b> <i>and</i> <b>3</b> <small>(this might change at a later point)</small>', 5);
                 else {
                     rounds = parseInt(document.getElementById('numbRoundsTxt').value);
-                    /*storageCosts['A'] = parseInt(document.getElementById('storageAtxt').value);
+                    storageCosts['A'] = parseInt(document.getElementById('storageAtxt').value);
                     storageCosts['B'] = parseInt(document.getElementById('storageBtxt').value);
                     storageCosts['C'] = parseInt(document.getElementById('storageCtxt').value);
                     startPoints = parseInt(document.getElementById('startPointsTxt').value);
@@ -130,7 +130,7 @@
                     
                     probType3acceptsA = parseFloat(document.getElementById('probType3acceptsA').value);
                     probType3acceptsB = parseFloat(document.getElementById('probType3acceptsB').value);
-                    probType3acceptsC = parseFloat(document.getElementById('probType3acceptsC').value);*/
+                    probType3acceptsC = parseFloat(document.getElementById('probType3acceptsC').value);
                     
                     runSim();
                 }
