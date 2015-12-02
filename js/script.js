@@ -189,19 +189,19 @@ function createPersons(){
         var p = new PersonType1(persons.length + 1);
         persons.push(p);
         personTypeAmounts[1] += 1;
-        print('<small>created ' + p.getDetails() + '</small>');
+        print('created ' + p.getDetails());
     };
     for(var i = 0; i < n / 3; i ++){
         var p = new PersonType2(persons.length + 1);
         persons.push(p);
         personTypeAmounts[2] += 1;
-        print('<small>created ' + p.getDetails() + '</small>');
+        print('created ' + p.getDetails());
     };
     for(var i = 0; i < n / 3; i ++){
         var p = new PersonType3(persons.length + 1);
         persons.push(p);
         personTypeAmounts[3] += 1;
-        print('<small>created ' + p.getDetails() + '</small>');
+        print('created ' + p.getDetails());
     };
 };
         
