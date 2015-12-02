@@ -1,6 +1,7 @@
 
 var storageCosts = {};
 var persons = [];
+var propTypeAccepts = {};
 
 var personTypeAmounts = {};
 personTypeAmounts[1] = 0;
@@ -17,6 +18,10 @@ goodsEndAmounts['A'] = 0;
 goodsEndAmounts['B'] = 0;
 goodsEndAmounts['C'] = 0;
 
+
+function getDecision(yesThreshold){
+    return Math.random() <= yesThreshold;
+};
 
 var PersonType = function(id, type, consume, produce){
     this.id = id;
@@ -41,7 +46,7 @@ PersonType.prototype = {
     },
     
     wantTrade: function(offeredGood){
-        //do override
+        return getDecision(propTypeAccepts[this.type + offeredGood]);
     },
     
     doTrade: function(incomingGood){
@@ -81,7 +86,6 @@ PersonType.prototype = {
     }
 };
 
-
 var PersonType1 = function(id){
     PersonType.call(this, id, 1, 'A', 'B');
 };
@@ -89,7 +93,7 @@ var PersonType1 = function(id){
 PersonType1.prototype = {
     __proto__: PersonType.prototype,
     
-    wantTrade : function(offeredGood){
+    /*wantTrade : function(offeredGood){
         switch(offeredGood){ // can currently have: B or C
             case 'A': // YES, consume good!
                 return true;
@@ -98,7 +102,7 @@ PersonType1.prototype = {
             case 'C':
                 return false;
         };
-    }
+    }*/
 };
 
 
@@ -109,7 +113,7 @@ var PersonType2 = function(id){
 PersonType2.prototype = {
     __proto__: PersonType.prototype,
     
-    wantTrade : function(offeredGood){
+    /*wantTrade : function(offeredGood){
         switch(offeredGood){ // can currently have: A or C
             case 'A':
                 return true;
@@ -118,7 +122,7 @@ PersonType2.prototype = {
             case 'C':
                 return false;
         };
-    }
+    }*/
 };
 
 
@@ -129,7 +133,7 @@ var PersonType3 = function(id){
 PersonType3.prototype = {
     __proto__: PersonType.prototype,
     
-    wantTrade : function(offeredGood){
+    /*wantTrade : function(offeredGood){
         switch(offeredGood){ // can currently have: A or B
             case 'A':
                 return true;
@@ -138,7 +142,7 @@ PersonType3.prototype = {
             case 'C': // YES, consume good!
                 return true;
         };
-    }
+    }*/
 };
 
 function noTrade(){

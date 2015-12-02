@@ -77,12 +77,6 @@
         <!--<div id="logDiv"></div>--> <!-- TODO -->
         
         <script>
-        
-            /*
-            var prob = 0.2;
-            var rand = Math.random();
-            console.log(rand);
-            console.log(rand <= prob ? 'yes' : 'no');*/
 
             var startPoints = 40;
             var consumeBonus = 20;
@@ -92,19 +86,19 @@
             storageCosts['A'] = 1;
             storageCosts['B'] = 4;
             storageCosts['C'] = 9;
+                        
+            propTypeAccepts['1A'] = 1.0;
+            propTypeAccepts['1B'] = 1.0;
+            propTypeAccepts['1C'] = 0.0;
             
-            var probType1acceptsA = 1.0;
-            var probType1acceptsB = 1.0;
-            var probType1acceptsC = 0.0;
+            propTypeAccepts['2A'] = 1.0;
+            propTypeAccepts['2B'] = 1.0;
+            propTypeAccepts['2C'] = 0.0;
             
-            var probType2acceptsA = 1.0;
-            var probType2acceptsB = 1.0;
-            var probType2acceptsC = 0.0;
-            
-            var probType3acceptsA = 1.0;
-            var probType3acceptsB = 0.0;
-            var probType3acceptsC = 1.0;
-            
+            propTypeAccepts['3A'] = 1.0;
+            propTypeAccepts['3B'] = 0.0;
+            propTypeAccepts['3C'] = 1.0;
+                        
             
             document.getElementById('runSimBtn').onclick = function(){
                 n = parseInt(document.getElementById('numbPersonsTxt').value);
@@ -120,17 +114,17 @@
                     
                     storageCosts['A'] = parseInt(document.getElementById('storageAtxt').value);
                     
-                    probType1acceptsA = parseFloat(document.getElementById('probType1acceptsA').value);
-                    probType1acceptsB = parseFloat(document.getElementById('probType1acceptsB').value);
-                    probType1acceptsC = parseFloat(document.getElementById('probType1acceptsC').value);
+                    propTypeAccepts['1A'] = parseFloat(document.getElementById('probType1acceptsA').value);
+                    propTypeAccepts['1B'] = parseFloat(document.getElementById('probType1acceptsB').value);
+                    propTypeAccepts['1C'] = parseFloat(document.getElementById('probType1acceptsC').value);
                     
-                    probType2acceptsA = parseFloat(document.getElementById('probType2acceptsA').value);
-                    probType2acceptsB = parseFloat(document.getElementById('probType2acceptsB').value);
-                    probType2acceptsC = parseFloat(document.getElementById('probType2acceptsC').value);
+                    propTypeAccepts['2A'] = parseFloat(document.getElementById('probType2acceptsA').value);
+                    propTypeAccepts['2B'] = parseFloat(document.getElementById('probType2acceptsB').value);
+                    propTypeAccepts['2C'] = parseFloat(document.getElementById('probType2acceptsC').value);
                     
-                    probType3acceptsA = parseFloat(document.getElementById('probType3acceptsA').value);
-                    probType3acceptsB = parseFloat(document.getElementById('probType3acceptsB').value);
-                    probType3acceptsC = parseFloat(document.getElementById('probType3acceptsC').value);
+                    propTypeAccepts['3A'] = parseFloat(document.getElementById('probType3acceptsA').value);
+                    propTypeAccepts['3B'] = parseFloat(document.getElementById('probType3acceptsB').value);
+                    propTypeAccepts['3C'] = parseFloat(document.getElementById('probType3acceptsC').value);
                     
                     runSim();
                 }
