@@ -20,7 +20,11 @@ goodsEndAmounts['B'] = 0;
 goodsEndAmounts['C'] = 0;
 
 
-function getDecision(yesThreshold){
+function getDecision(yesThreshold){ // true is yes, false is no
+    if(yesThreshold == 0)
+        return false;
+    if(yesThreshold == 1)    
+        return true;   
     return Math.random() <= yesThreshold;
 };
 
