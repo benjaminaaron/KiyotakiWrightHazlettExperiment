@@ -97,15 +97,17 @@ function createPersonTypeGroup(numb, personType, consumeGood, produceGood){
         var p = new Person(persons.length + 1, personType, consumeGood, produceGood);
         persons.push(p);
         personTypeAmounts[personType] += 1;
-        print('created ' + p.getDetails());
+        print('created ' + p.getDetails(), true);
     };
 };
 
 function createPersons(){
+    print('<small>', true);
     var amountOfEachType = n / 3;
     createPersonTypeGroup(amountOfEachType, 1, 'A', 'B');
     createPersonTypeGroup(amountOfEachType, 2, 'B', 'C');
     createPersonTypeGroup(amountOfEachType, 3, 'C', 'A');
+    print('</small>', true);
 };
 
 
@@ -157,14 +159,14 @@ function encounter(p1, p2){
             p2.doTrade(p1_good);    
         }
     }
-    print(log);     
+    print(log, true);     
 };
 
 
-function showStatuses(addLineNumbers){    
+function showStatuses(analysisMode){    
     for(var i in persons){
         var lineNumb = parseInt(i) < 9 ? '&nbsp;&nbsp;' + (parseInt(i) + 1) : '' + (parseInt(i) + 1);
-        print((addLineNumbers ? '<font size="2" color="gray">' + lineNumb + ':</font>&nbsp;&nbsp;' : '') + persons[i].getStatus());
+        print((analysisMode ? '<font size="2" color="gray">' + lineNumb + ':</font>&nbsp;&nbsp;' : '') + persons[i].getStatus(), analysisMode ? undefined : true);
         persons[i].resetPointsDelta();
     };
 };
@@ -173,8 +175,8 @@ function showStatuses(addLineNumbers){
 function oneRound(roundNumb){
     for(var i in persons)
         persons[i].roundStart();
-    print();
-    print('<b><font size="4" color="green">round ' + roundNumb + '</font></b>');
+    print('', true);
+    print('<b><font size="4" color="green">round ' + roundNumb + '</font></b>', true);
     var indize = [];
     for(var i = 0; i < n; i ++)
         indize.push(i);    
@@ -187,7 +189,7 @@ function oneRound(roundNumb){
     };
     for(var i in persons)
         persons[i].payStorage();
-    print('<font color="gray">status at end of round ' + roundNumb + ':</font>');
+    print('<font color="gray">status at end of round ' + roundNumb + ':</font>', true);
     showStatuses(false);
 };
 

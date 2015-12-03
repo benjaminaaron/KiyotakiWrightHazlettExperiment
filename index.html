@@ -11,22 +11,30 @@
                 padding-left: 10px;
                 padding-top: 10px;
             }
+            hr {
+                height: 1px;
+                border-width: 0;
+                background-color: #CCC;               
+            }
+            a {
+                text-decoration: none;
+            }
         </style>
     </head>
     <body>
         <script src="js/vendors/notie.js" type="text/javascript" charset="utf-8"></script>
         
         <font size="5">Kiyotaki Wright Hazlett Experiment</font>
-        <br><br>
-        
+        <br>
+        <font color="gray" size="1">more info and code <a target="_blank" href="https://github.com/benjaminaaron/KiyotakiWrightHazlettExperiment">here</a></font>
+        <hr>
         <small>        
         <input type="text" id="numbPersonsTxt" value="24" size="4"/>
         number of persons
         <br>
         <input type="text" id="numbRoundsTxt" value="10" size="4"/>
         number of rounds
-        <br><br><br>
-        
+        <hr>
         <i>predefined settings</i>:
         <select id="presetsSelector" onchange="presetsSelectorChanged()">
             <option value="strict">default: strict benefit-orientated trading</option>
@@ -36,8 +44,7 @@
             <option value="equilibrium">equilibrium: equal storage costs, accept all trades</option>
             <option value="random">random: randomize all values (within reasonable bounds)</option>
         </select> 
-        
-        <br><br>
+        <hr>
         <input type="text" id="storageAtxt" value="1" size="4"/>
         storage costs for good A
         <br>
@@ -54,7 +61,7 @@
         consume bonus
         </small>
          
-        <br><br><br>
+        <hr>
         probabilities for accepting a trade
         <br><br>
         <small>
@@ -86,7 +93,7 @@
         <input type="text" id="probType3acceptsC" value="1" size="4"/>
         </small>
         
-        <br><br><br>
+        <hr>
         probabilities for making concessions to someone<small>: "being nice", making a trade that only the counterpart wants</small>
         <br><br>
         <small>
@@ -100,8 +107,12 @@
         <input type="text" id="propTyp3nice" value="0" size="4"/>
         </small>
             
-        <br><br><br><br>
+        <hr>
         <input type="button" value="run simulation" id="runSimBtn"/>
+        <small>&nbsp;&nbsp;log each round: </small>
+        <input type="checkbox" checked="checked" id="loggingCheckbox"/>
+        <br>
+        <font color="silver" size="1">reload page to start over</font>
 
         <script>
 
@@ -128,11 +139,12 @@
             
             propTypeNice[1] = 0.0;
             propTypeNice[2] = 0.0;
-            propTypeNice[3] = 0.0;        
+            propTypeNice[3] = 0.0;     
+            
+            var verbose = true; // log each round
             
             function resetInputFields(){
                 var e;
-                
                 e = document.getElementById('storageAtxt');
                 e.value = 1;
                 e = document.getElementById('storageBtxt');
@@ -143,7 +155,6 @@
                 e.value = 40;
                 e = document.getElementById('consumeBonusTxt');
                 e.value = 20;
-                
                 e = document.getElementById('probType1acceptsA');
                 e.value = 1;
                 e = document.getElementById('probType1acceptsB');
@@ -162,7 +173,6 @@
                 e.value = 0;
                 e = document.getElementById('probType3acceptsC');
                 e.value = 1;
-                
                 e = document.getElementById('propTyp1nice');
                 e.value = 0;
                 e = document.getElementById('propTyp2nice');
@@ -224,7 +234,6 @@
                         e.value = Math.round(Math.random() * 50);
                         e = document.getElementById('consumeBonusTxt');
                         e.value = Math.round(Math.random() * 50);
-                        
                         e = document.getElementById('probType1acceptsA');
                         e.value = roundDec(Math.random(), 2);
                         e = document.getElementById('probType1acceptsB');
@@ -243,7 +252,6 @@
                         e.value = roundDec(Math.random(), 2);
                         e = document.getElementById('probType3acceptsC');
                         e.value = roundDec(Math.random(), 2);
-                        
                         e = document.getElementById('propTyp1nice');
                         e.value = roundDec(Math.random(), 2);
                         e = document.getElementById('propTyp2nice');
@@ -284,6 +292,8 @@
                     propTypeNice[2] = parseFloat(document.getElementById('propTyp2nice').value);
                     propTypeNice[3] = parseFloat(document.getElementById('propTyp3nice').value);
 
+                    verbose = document.getElementById('loggingCheckbox').checked;
+
                     runSim();
                 }
             };
@@ -303,14 +313,16 @@
                 print('concession probability of Type1: ' + propTypeNice[1]);
                 print('concession probability of Type2: ' + propTypeNice[2]);
                 print('concession probability of Type3: ' + propTypeNice[3]);
-                print('<small>');
                 createPersons();
-                print('</small>');
                 print('number of persons = 1: ' + personTypeAmounts[1] + ', 2: ' + personTypeAmounts[2] + ', 3: ' + personTypeAmounts[3]);
                 print('number of goods = A: ' + goodsStartAmounts['A'] + ', B: ' + goodsStartAmounts['B'] + ', C: ' + goodsStartAmounts['C'] );
                 print();                
                 print('<b><font size="5" color="blue">start simulation</font></b>');
                 runRounds(rounds);
+                if(!verbose){
+                    print();
+                    print('<i><font color="gray"><small>[output not shown]</small></font></i>');
+                }
                 print();
                 print('<b><font size="5" color="blue">end simulation</font></b>');
                 print();
