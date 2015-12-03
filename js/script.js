@@ -206,15 +206,15 @@ function runAnalysis(){
         goodsEndAmounts[persons[i].good] += 1;
     
     var goodsPercentages = {};
-    goodsPercentages['A_start'] = roundDec((goodsStartAmounts['A'] / n) * 100) + '%';
-    goodsPercentages['B_start'] = roundDec((goodsStartAmounts['B'] / n) * 100) + '%';
-    goodsPercentages['C_start'] = roundDec((goodsStartAmounts['C'] / n) * 100) + '%';
-    goodsPercentages['A_end'] = roundDec((goodsEndAmounts['A'] / n) * 100) + '%';
-    goodsPercentages['B_end'] = roundDec((goodsEndAmounts['B'] / n) * 100) + '%';
-    goodsPercentages['C_end'] = roundDec((goodsEndAmounts['C'] / n) * 100) + '%';
-    goodsPercentages['A_diff'] = roundDec((goodsEndAmounts['A'] / goodsStartAmounts['A']) * 100) + '%';
-    goodsPercentages['B_diff'] = roundDec((goodsEndAmounts['B'] / goodsStartAmounts['B']) * 100) + '%';
-    goodsPercentages['C_diff'] = roundDec((goodsEndAmounts['C'] / goodsStartAmounts['C']) * 100) + '%';
+    goodsPercentages['A_start'] = roundDec((goodsStartAmounts['A'] / n) * 100, 1) + '%';
+    goodsPercentages['B_start'] = roundDec((goodsStartAmounts['B'] / n) * 100, 1) + '%';
+    goodsPercentages['C_start'] = roundDec((goodsStartAmounts['C'] / n) * 100, 1) + '%';
+    goodsPercentages['A_end'] = roundDec((goodsEndAmounts['A'] / n) * 100, 1) + '%';
+    goodsPercentages['B_end'] = roundDec((goodsEndAmounts['B'] / n) * 100, 1) + '%';
+    goodsPercentages['C_end'] = roundDec((goodsEndAmounts['C'] / n) * 100, 1) + '%';
+    goodsPercentages['A_diff'] = roundDec((goodsEndAmounts['A'] / goodsStartAmounts['A']) * 100, 1) + '%';
+    goodsPercentages['B_diff'] = roundDec((goodsEndAmounts['B'] / goodsStartAmounts['B']) * 100, 1) + '%';
+    goodsPercentages['C_diff'] = roundDec((goodsEndAmounts['C'] / goodsStartAmounts['C']) * 100, 1) + '%';
 
     printGoodPerformance(goodsPercentages, 'A');
     printGoodPerformance(goodsPercentages, 'B');

@@ -1,6 +1,7 @@
 
-function roundDec(num){
-    return Math.round(num * 10) / 10;
+function roundDec(num, digits){
+    var factor = Math.pow(10, digits);
+    return Math.round(num * factor) / factor;
 };
 
 function print(str){

@@ -34,6 +34,7 @@
             <option value="strategic">strategic: accept goods that are consumed by the Type that produces your consumption good</option>
             <option value="social">social: strict benefit-orientated trading but a 25% chance to make concessions</option>
             <option value="equilibrium">equilibrium: equal storage costs, accept all trades</option>
+            <option value="random">random: randomize all values (within reasonable bounds)</option>
         </select> 
         
         <br><br>
@@ -141,8 +142,8 @@
                 e = document.getElementById('startPointsTxt');
                 e.value = 40;
                 e = document.getElementById('consumeBonusTxt');
-                
                 e.value = 20;
+                
                 e = document.getElementById('probType1acceptsA');
                 e.value = 1;
                 e = document.getElementById('probType1acceptsB');
@@ -211,6 +212,44 @@
                         e.value = 5;
                         e = document.getElementById('storageCtxt');
                         e.value = 5;
+                        break;
+                    case 'random':
+                        e = document.getElementById('storageAtxt');
+                        e.value = Math.round(Math.random() * 10);
+                        e = document.getElementById('storageBtxt');
+                        e.value = Math.round(Math.random() * 10);
+                        e = document.getElementById('storageCtxt');
+                        e.value = Math.round(Math.random() * 10);
+                        e = document.getElementById('startPointsTxt');
+                        e.value = Math.round(Math.random() * 50);
+                        e = document.getElementById('consumeBonusTxt');
+                        e.value = Math.round(Math.random() * 50);
+                        
+                        e = document.getElementById('probType1acceptsA');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType1acceptsB');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType1acceptsC');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType2acceptsA');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType2acceptsB');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType2acceptsC');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType3acceptsA');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType3acceptsB');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('probType3acceptsC');
+                        e.value = roundDec(Math.random(), 2);
+                        
+                        e = document.getElementById('propTyp1nice');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('propTyp2nice');
+                        e.value = roundDec(Math.random(), 2);
+                        e = document.getElementById('propTyp3nice');
+                        e.value = roundDec(Math.random(), 2);
                         break;
                 }                
             };
